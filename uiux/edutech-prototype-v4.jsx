@@ -456,7 +456,7 @@ const TodayPage = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="text-sm text-gray-400 mb-1">홈 / <span className="text-blue-500">오늘</span></div>
-          <h1 className="text-2xl font-bold text-gray-800">안녕하세요, 선생님! 👋</h1>
+          <h1 className="text-2xl font-bold text-gray-800">안녕하세요, 윤지명 선생님! 👋</h1>
         </div>
         <div className="flex items-center gap-2 text-gray-500 bg-white px-4 py-2.5 rounded-xl" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)' }}>
           <span>📅</span>
@@ -698,6 +698,22 @@ const TodayPage = () => {
 
 // 우리 반 페이지 - Nano Banana 스타일
 const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
+  const [topStudents, setTopStudents] = useState([
+    { rank: 1, name: '박도윤', point: 58 },
+    { rank: 2, name: '최수아', point: 52 },
+    { rank: 3, name: '강지우', point: 48 },
+    { rank: 4, name: '김서준', point: 45 },
+    { rank: 5, name: '윤서연', point: 35 },
+  ]);
+
+  const updatePoints = (rank, delta) => {
+    setTopStudents(topStudents.map(student =>
+      student.rank === rank
+        ? { ...student, point: Math.max(0, student.point + delta) }
+        : student
+    ));
+  };
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen overflow-auto" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
       {/* 헤더 */}
@@ -718,26 +734,34 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
           <span className="text-sm font-medium text-gray-500">빠른 도구</span>
         </div>
-        <div className="grid grid-cols-4 gap-4">
-          <button className="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 transition-all group">
-            <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">🧠</span>
-            <span className="font-semibold text-pink-700 text-sm">심리검사</span>
-            <span className="text-xs text-pink-400 mt-1">진행 중 3명</span>
+        <div className="flex gap-4">
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🧠</span>
+            <div className="text-left">
+              <div className="font-semibold text-pink-700 text-sm">심리검사</div>
+              <div className="text-xs text-pink-400">진행 중 3명</div>
+            </div>
           </button>
-          <button className="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all group">
-            <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">🏠</span>
-            <span className="font-semibold text-blue-700 text-sm">마이룸</span>
-            <span className="text-xs text-blue-400 mt-1">꾸미기</span>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🏠</span>
+            <div className="text-left">
+              <div className="font-semibold text-blue-700 text-sm">마이룸</div>
+              <div className="text-xs text-blue-400">꾸미기</div>
+            </div>
           </button>
-          <button className="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all group">
-            <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">🎯</span>
-            <span className="font-semibold text-green-700 text-sm">목표 설정</span>
-            <span className="text-xs text-green-400 mt-1">이번 주</span>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🎯</span>
+            <div className="text-left">
+              <div className="font-semibold text-green-700 text-sm">목표 설정</div>
+              <div className="text-xs text-green-400">이번 주</div>
+            </div>
           </button>
-          <button className="flex flex-col items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 hover:from-yellow-100 hover:to-yellow-200 transition-all group">
-            <span className="text-3xl mb-2 group-hover:scale-110 transition-transform">🏪</span>
-            <span className="font-semibold text-yellow-700 text-sm">상점</span>
-            <span className="text-xs text-yellow-500 mt-1">리워드 사용</span>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 hover:from-yellow-100 hover:to-yellow-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🏪</span>
+            <div className="text-left">
+              <div className="font-semibold text-yellow-700 text-sm">상점</div>
+              <div className="text-xs text-yellow-500">리워드 사용</div>
+            </div>
           </button>
         </div>
       </div>
@@ -754,8 +778,8 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
               <span className="text-gray-500">전체 제출률</span>
               <span className="font-bold text-blue-500 text-lg">75%</span>
             </div>
-            <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all" style={{ width: '75%' }}></div>
+            <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all" style={{ width: '75%' }}></div>
             </div>
             <div className="text-right text-sm text-gray-400 mt-2">21/28명 제출 완료</div>
           </div>
@@ -780,16 +804,10 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
             <button className="text-sm text-blue-500 hover:text-blue-600 font-medium">전체 보기 →</button>
           </div>
           <div className="space-y-2">
-            {[
-              { rank: 1, name: '박도윤', point: 58 },
-              { rank: 2, name: '최수아', point: 52 },
-              { rank: 3, name: '강지우', point: 48 },
-              { rank: 4, name: '김서준', point: 45 },
-              { rank: 5, name: '윤서연', point: 35 },
-            ].map((item) => (
+            {topStudents.map((item) => (
               <div key={item.rank} className="flex items-center justify-between py-2 px-3 rounded-xl hover:bg-gray-50 transition-all">
                 <div className="flex items-center gap-3">
-                  <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
+                  <span className={`w-8 h-8 min-w-[2rem] rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                     item.rank === 1 ? 'bg-yellow-400 text-white' :
                     item.rank === 2 ? 'bg-gray-400 text-white' :
                     item.rank === 3 ? 'bg-orange-400 text-white' :
@@ -799,7 +817,21 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
                   </span>
                   <span className="font-medium text-gray-700">{item.name}</span>
                 </div>
-                <span className="text-red-400 font-bold">❤️ {item.point}</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => updatePoints(item.rank, -1)}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold transition-all"
+                  >
+                    -
+                  </button>
+                  <span className="text-red-400 font-bold min-w-[60px] text-center">❤️ {item.point}</span>
+                  <button
+                    onClick={() => updatePoints(item.rank, 1)}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 font-bold transition-all"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             ))}
           </div>
