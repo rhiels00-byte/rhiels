@@ -76,309 +76,10 @@ const LNB = ({ isCollapsed, setIsCollapsed, activeMenu, setActiveMenu, activeSub
       <div className="flex-1 overflow-y-auto">
         {/* 로고 */}
         <div className="p-5">
-          {!isCollapsed ? (
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">📚</span>
-              <span className="text-xl font-bold text-blue-500">에듀테크</span>
-            </div>
-          ) : (
-            <div className="text-2xl text-center">📚</div>
-          )}
-        </div>
-
-        {/* 수업 영역 */}
-        <div className="px-4 pb-4">
-          {!isCollapsed ? (
-            <>
-              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-white border border-gray-200 hover:bg-gray-50 mb-3 transition-all duration-200"
-                style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
-                <span className="text-xl">📖</span>
-                <span className="font-medium text-gray-700">교과서</span>
-              </button>
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white font-semibold transition-all duration-200"
-                style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}>
-                <span className="text-lg">▶</span>
-                <span>수업 시작</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="w-full flex items-center justify-center p-3 rounded-2xl bg-white border border-gray-200 hover:bg-gray-50 mb-3 transition-all">
-                <span className="text-xl">📖</span>
-              </button>
-              <button className="w-full flex items-center justify-center p-3 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white transition-all"
-                style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}>
-                <span className="text-lg">▶</span>
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* 메인 메뉴 */}
-        <div className="px-3 pb-4">
-          {menuItems.map((item) => (
-            <div key={item.id} className="mb-1">
-              <button
-                onClick={() => {
-                  if (item.subItems.length > 0) {
-                    toggleMenu(item.id);
-                    if (!expandedMenus.includes(item.id)) {
-                      handleMenuClick(item.id, item.subItems[0]);
-                    }
-                  } else {
-                    handleMenuClick(item.id);
-                  }
-                }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 ${
-                  activeMenu === item.id
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-600 hover:bg-gray-50'
-                } ${isCollapsed ? 'justify-center' : ''}`}
-              >
-                <span className="text-xl">{item.icon}</span>
-                {!isCollapsed && (
-                  <>
-                    <span className="flex-1 text-left font-medium">{item.label}</span>
-                    {item.subItems.length > 0 && (
-                      <span className={`text-gray-400 transition-transform duration-200 ${expandedMenus.includes(item.id) ? 'rotate-180' : ''}`}>
-                        ▼
-                      </span>
-                    )}
-                  </>
-                )}
-              </button>
-
-              {/* 서브메뉴 - 아코디언 애니메이션 */}
-              {!isCollapsed && item.subItems.length > 0 && (
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    expandedMenus.includes(item.id) ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="ml-4 mt-1 space-y-1">
-                    {item.subItems.map((subItem) => (
-                      <button
-                        key={subItem}
-                        onClick={() => handleMenuClick(item.id, subItem)}
-                        className={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-all duration-200 ${
-                          activeMenu === item.id && activeSubMenu === subItem
-                            ? 'text-blue-600 font-semibold bg-blue-50'
-                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-                        }`}
-                      >
-                        {subItem}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* 유틸 메뉴 - 이제 스크롤 영역 안에 포함 */}
-        <div className="px-3 pb-3 border-t border-gray-100 pt-3">
-          <button className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition-all ${isCollapsed ? 'justify-center' : ''}`}>
-            <span className="relative text-xl">
-              🔔
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                3
-              </span>
-            </span>
-            {!isCollapsed && <span className="font-medium">알림</span>}
-          </button>
-
-          <button className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition-all ${isCollapsed ? 'justify-center' : ''}`}>
-            <span className="text-xl text-red-400">❓</span>
-            {!isCollapsed && <span className="font-medium">고객센터</span>}
-          </button>
-
-          {/* 프로필 */}
-          <div className={`mt-2 px-4 py-3 ${isCollapsed ? 'flex justify-center' : ''}`}>
-            {!isCollapsed ? (
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-lg">👤</span>
-                </div>
-                <span className="font-medium text-gray-700">윤지명</span>
-              </div>
-            ) : (
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-lg">👤</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* 접기 버튼 - 하단 고정 */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="p-4 border-t border-gray-100 hover:bg-gray-50 text-gray-400 transition-all flex items-center justify-center gap-2"
-      >
-        <span className={`transition-transform duration-200 ${isCollapsed ? 'rotate-180' : ''}`}>◀</span>
-        {!isCollapsed && <span className="text-sm">메뉴 접기</span>}
-      </button>
-    </div>
-  );
-};
-
-// 개별 학생 채팅 페이지
-const StudentChatPage = ({ student, onBack, onViewAll, messages, setMessages }) => {
-  const [newMessage, setNewMessage] = useState('');
-  const studentMessages = messages[student.name] || [];
-
-  const sendMessage = () => {
-    if (!newMessage.trim()) return;
-    
-    const now = new Date();
-    const timeStr = `${now.getMonth() + 1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-    
-    const newMsg = {
-      id: Date.now(),
-      text: newMessage,
-      time: timeStr,
-      from: 'teacher'
-    };
-    
-    setMessages({
-      ...messages,
-      [student.name]: [...studentMessages, newMsg]
-    });
-    setNewMessage('');
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
-
-  return (
-    <div className="h-full flex flex-col bg-gray-50" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      {/* 헤더 */}
-      <div className="bg-white px-6 py-4" style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)' }}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={onBack}
-              className="p-2 hover:bg-gray-100 rounded-xl transition-all"
-            >
-              ← 뒤로
-            </button>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg"
-                style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.2)' }}>
-                {student.name.charAt(0)}
-              </div>
-              <div>
-                <div className="font-bold text-gray-800 text-lg">{student.name}</div>
-                <div className="text-sm text-gray-500">1학년 3반 · {student.no}번</div>
-              </div>
-            </div>
-          </div>
-          <button 
-            onClick={onViewAll}
-            className="px-5 py-2.5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all font-medium"
-            style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}
-          >
-            📋 전체 보기
-          </button>
-        </div>
-      </div>
-
-      {/* 채팅 영역 */}
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-2xl mx-auto space-y-4">
-          {studentMessages.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="text-7xl mb-4">💬</div>
-              <div className="text-gray-500 font-medium">아직 메시지가 없습니다</div>
-              <div className="text-gray-400 text-sm mt-2">{student.name} 학생에게 첫 메시지를 보내보세요!</div>
-            </div>
-          ) : (
-            studentMessages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.from === 'teacher' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs lg:max-w-md`}>
-                  <div className={`px-4 py-3 rounded-2xl ${
-                    msg.from === 'teacher' 
-                      ? 'bg-blue-500 text-white rounded-br-md' 
-                      : 'bg-white text-gray-800 rounded-bl-md'
-                  }`}
-                  style={{ boxShadow: msg.from === 'teacher' ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.06)' }}>
-                    {msg.text}
-                  </div>
-                  <div className={`text-xs text-gray-400 mt-1.5 ${msg.from === 'teacher' ? 'text-right' : 'text-left'}`}>
-                    {msg.time}
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* 입력 영역 */}
-      <div className="bg-white px-6 py-4" style={{ boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.05)' }}>
-        <div className="max-w-2xl mx-auto flex gap-3">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder={`${student.name} 학생에게 메시지 보내기...`}
-            className="flex-1 px-5 py-3.5 bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-          />
-          <button 
-            onClick={sendMessage}
-            disabled={!newMessage.trim()}
-            className="px-6 py-3.5 bg-blue-500 text-white rounded-2xl hover:bg-blue-600 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}
-          >
-            보내기
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 전체 메시지 히스토리 페이지
-const AllMessagesPage = ({ onBack, onSelectStudent, messages }) => {
-  const studentsWithMessages = studentsData.filter(s => messages[s.name] && messages[s.name].length > 0);
-  const studentsWithoutMessages = studentsData.filter(s => !messages[s.name] || messages[s.name].length === 0);
-
-  const getLastMessage = (studentName) => {
-    const msgs = messages[studentName] || [];
-    return msgs[msgs.length - 1];
-  };
-
-  return (
-    <div className="h-full flex flex-col bg-gray-50" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      {/* 헤더 */}
-      <div className="bg-white px-6 py-4" style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)' }}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={onBack}
-              className="p-2 hover:bg-gray-100 rounded-xl transition-all"
-            >
-              ← 뒤로
-            </button>
-            <div>
-              <div className="font-bold text-gray-800 text-xl">💬 메시지</div>
-              <div className="text-sm text-gray-500">1학년 3반 학생들과의 대화</div>
-            </div>
-          </div>
-          <div className="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-xl">
-            대화 중인 학생: <span className="font-bold text-blue-500">{studentsWithMessages.length}명</span> / 전체 {studentsData.length}명
-          </div>
-        </div>
-      </div>
-
-      {/* 메시지 목록 */}
-... (file continues)            <span className="text-xl font-bold text-blue-500">에듀테크</span>
+        {!isCollapsed ? (
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">📚</span>
+            <span className="text-xl font-bold text-blue-500">에듀테크</span>
           </div>
         ) : (
           <div className="text-2xl text-center">📚</div>
@@ -413,8 +114,8 @@ const AllMessagesPage = ({ onBack, onSelectStudent, messages }) => {
         )}
       </div>
 
-      {/* 메인 메뉴 */}
-      <div className="flex-1 px-3 overflow-hidden">
+        {/* 메인 메뉴 */}
+        <div className="px-3 pb-4">
         {menuItems.map((item) => (
           <div key={item.id} className="mb-1">
             <button
@@ -508,8 +209,9 @@ const AllMessagesPage = ({ onBack, onSelectStudent, messages }) => {
           )}
         </div>
       </div>
+      </div>
 
-      {/* 접기 버튼 */}
+      {/* 접기 버튼 - 하단 고정 */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="p-4 border-t border-gray-100 hover:bg-gray-50 text-gray-400 transition-all flex items-center justify-center gap-2"
@@ -756,7 +458,7 @@ const TodayPage = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="text-sm text-gray-400 mb-1">홈 / <span className="text-blue-500">오늘</span></div>
-          <h1 className="text-2xl font-bold text-gray-800">안녕하세요, 선생님! 👋</h1>
+          <h1 className="text-2xl font-bold text-gray-800">안녕하세요, 윤지명 선생님! 👋</h1>
         </div>
         <div className="flex items-center gap-2 text-gray-500 bg-white px-4 py-2.5 rounded-xl" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)' }}>
           <span>📅</span>
@@ -774,7 +476,6 @@ const TodayPage = () => {
           <button className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 hover:from-yellow-100 hover:to-yellow-200 transition-all group">
             <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">✏️</span>
             <span className="font-semibold text-yellow-700">수업 재구성</span>
-            <span className="text-xs text-yellow-400 mt-1">진행 중 3명</span>
           </button>
           <button className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all group">
             <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">💬</span>
@@ -997,4 +698,314 @@ const TodayPage = () => {
   );
 };
 
-// our content continues all the way to the end of file (already included)
+// 우리 반 페이지 - Nano Banana 스타일
+const ClassPage = ({ onOpenChat, onOpenAllMessages }) => {
+  const [topStudents, setTopStudents] = useState([
+    { rank: 1, name: '박도윤', point: 58 },
+    { rank: 2, name: '최수아', point: 52 },
+    { rank: 3, name: '강지우', point: 48 },
+    { rank: 4, name: '김서준', point: 45 },
+    { rank: 5, name: '윤서연', point: 35 },
+  ]);
+
+  const updatePoints = (rank, delta) => {
+    setTopStudents(topStudents.map(student =>
+      student.rank === rank
+        ? { ...student, point: Math.max(0, student.point + delta) }
+        : student
+    ));
+  };
+
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen overflow-auto" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+      {/* 헤더 */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="text-sm text-gray-400 mb-1">홈 / <span className="text-blue-500">우리 반</span></div>
+          <h1 className="text-2xl font-bold text-gray-800">우리 반 👨‍👩‍👧‍👦</h1>
+        </div>
+        <div className="flex items-center gap-2 text-gray-500 bg-white px-4 py-2.5 rounded-xl" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)' }}>
+          <span>🏫</span>
+          <span className="font-medium">1학년 3반 (28명)</span>
+        </div>
+      </div>
+
+      {/* 빠른 도구 */}
+      <div className="bg-white rounded-3xl p-6 mb-6" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+          <span className="text-sm font-medium text-gray-500">빠른 도구</span>
+        </div>
+        <div className="flex gap-4">
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🧠</span>
+            <div className="text-left">
+              <div className="font-semibold text-pink-700 text-sm">심리검사</div>
+              <div className="text-xs text-pink-400">진행 중 3명</div>
+            </div>
+          </button>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🏠</span>
+            <div className="text-left">
+              <div className="font-semibold text-blue-700 text-sm">마이룸</div>
+              <div className="text-xs text-blue-400">꾸미기</div>
+            </div>
+          </button>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🎯</span>
+            <div className="text-left">
+              <div className="font-semibold text-green-700 text-sm">목표 설정</div>
+              <div className="text-xs text-green-400">이번 주</div>
+            </div>
+          </button>
+          <button className="flex-1 flex items-center justify-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 hover:from-yellow-100 hover:to-yellow-200 transition-all group">
+            <span className="text-3xl group-hover:scale-110 transition-transform">🏪</span>
+            <div className="text-left">
+              <div className="font-semibold text-yellow-700 text-sm">상점</div>
+              <div className="text-xs text-yellow-500">리워드 사용</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* 제출 현황 + 리워드 */}
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <span>📊</span>
+            <span className="font-semibold text-gray-700">이번 주 제출 현황</span>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-gray-500">전체 제출률</span>
+              <span className="font-bold text-blue-500 text-lg">75%</span>
+            </div>
+            <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all" style={{ width: '75%' }}></div>
+            </div>
+            <div className="text-right text-sm text-gray-400 mt-2">21/28명 제출 완료</div>
+          </div>
+          <div className="flex items-center justify-between p-4 bg-red-50 rounded-xl">
+            <div>
+              <span className="text-red-500 font-medium">⚠️ 미제출 7명</span>
+              <p className="text-sm text-red-300 mt-1">이하은, 정예준 외 5명</p>
+            </div>
+            <button className="px-4 py-2 bg-red-500 text-white rounded-xl text-sm font-medium hover:bg-red-600 transition-all"
+              style={{ boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)' }}>
+              알림 보내기
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <span>🏆</span>
+              <span className="font-semibold text-gray-700">리워드 TOP 5</span>
+            </div>
+            <button className="text-sm text-blue-500 hover:text-blue-600 font-medium">전체 보기 →</button>
+          </div>
+          <div className="space-y-2">
+            {topStudents.map((item) => (
+              <div key={item.rank} className="flex items-center justify-between py-2 px-3 rounded-xl hover:bg-gray-50 transition-all">
+                <div className="flex items-center gap-3">
+                  <span className={`w-8 h-8 min-w-[2rem] rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
+                    item.rank === 1 ? 'bg-yellow-400 text-white' :
+                    item.rank === 2 ? 'bg-gray-400 text-white' :
+                    item.rank === 3 ? 'bg-orange-400 text-white' :
+                    'bg-gray-100 text-gray-500'
+                  }`}>
+                    {item.rank}
+                  </span>
+                  <span className="font-medium text-gray-700">{item.name}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => updatePoints(item.rank, -1)}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold transition-all"
+                  >
+                    -
+                  </button>
+                  <span className="text-red-400 font-bold min-w-[60px] text-center">❤️ {item.point}</span>
+                  <button
+                    onClick={() => updatePoints(item.rank, 1)}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 font-bold transition-all"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 학생 리스트 */}
+      <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <span>👥</span>
+            <span className="font-semibold text-gray-700">학생 리스트</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={onOpenAllMessages}
+              className="px-4 py-2 bg-blue-50 text-blue-500 rounded-xl text-sm font-medium hover:bg-blue-100 transition-all"
+            >
+              💬 전체 메시지
+            </button>
+            <input
+              type="text"
+              placeholder="🔍 학생 검색"
+              className="px-4 py-2 bg-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
+            />
+            <select className="px-4 py-2 bg-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>번호순</option>
+              <option>이름순</option>
+              <option>리워드순</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-100">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">No</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">이름</th>
+                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-400">오늘 기분</th>
+                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-400">제출 현황</th>
+                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-400">리워드</th>
+                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-400">메모</th>
+                <th className="text-center py-3 px-4 text-sm font-semibold text-gray-400">메시지</th>
+              </tr>
+            </thead>
+            <tbody>
+              {studentsData.map((student) => (
+                <tr key={student.no} className="border-b border-gray-50 hover:bg-blue-50 transition-all">
+                  <td className="py-4 px-4 text-gray-400 font-medium">{student.no}</td>
+                  <td className="py-4 px-4 font-semibold text-gray-800">{student.name}</td>
+                  <td className="py-4 px-4 text-center text-2xl">{student.mood}</td>
+                  <td className="py-4 px-4 text-center">
+                    <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium ${
+                      student.submitted === '2/2' ? 'bg-green-100 text-green-600' :
+                      student.submitted === '0/2' ? 'bg-red-100 text-red-600' :
+                      'bg-yellow-100 text-yellow-600'
+                    }`}>
+                      {student.submitted === '2/2' ? '✅' : student.submitted === '0/2' ? '❌' : '⚠️'} {student.submitted}
+                    </span>
+                  </td>
+                  <td className="py-4 px-4 text-center text-red-400 font-bold">❤️ {student.reward}</td>
+                  <td className="py-4 px-4 text-center text-lg">{student.hasMemo ? '📌' : <span className="text-gray-200">-</span>}</td>
+                  <td className="py-4 px-4 text-center">
+                    <button 
+                      onClick={() => onOpenChat(student)}
+                      className="px-4 py-2 text-sm text-blue-500 hover:text-white hover:bg-blue-500 font-medium bg-blue-50 rounded-xl transition-all"
+                    >
+                      💬 메시지
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 메인 앱
+export default function App() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('홈');
+  const [activeSubMenu, setActiveSubMenu] = useState('오늘');
+  const [currentPage, setCurrentPage] = useState('main');
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [messages, setMessages] = useState(initialMessages);
+
+  const handleOpenChat = (student) => {
+    setSelectedStudent(student);
+    setCurrentPage('chat');
+  };
+
+  const handleOpenAllMessages = () => {
+    setCurrentPage('allMessages');
+  };
+
+  const handleBackToClass = () => {
+    setCurrentPage('main');
+    setSelectedStudent(null);
+  };
+
+  const renderContent = () => {
+    if (currentPage === 'chat' && selectedStudent) {
+      return (
+        <StudentChatPage 
+          student={selectedStudent}
+          onBack={handleBackToClass}
+          onViewAll={handleOpenAllMessages}
+          messages={messages}
+          setMessages={setMessages}
+        />
+      );
+    }
+
+    if (currentPage === 'allMessages') {
+      return (
+        <AllMessagesPage 
+          onBack={handleBackToClass}
+          onSelectStudent={handleOpenChat}
+          messages={messages}
+        />
+      );
+    }
+
+    if (activeMenu === '홈') {
+      if (activeSubMenu === '우리 반') {
+        return (
+          <ClassPage 
+            onOpenChat={handleOpenChat}
+            onOpenAllMessages={handleOpenAllMessages}
+          />
+        );
+      }
+      return <TodayPage />;
+    }
+    
+    return (
+      <div className="flex items-center justify-center h-full bg-gray-50" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+        <div className="text-center p-10 bg-white rounded-3xl" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
+          <div className="text-7xl mb-6">🚧</div>
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">
+            {activeMenu} {activeSubMenu && `> ${activeSubMenu}`}
+          </h2>
+          <p className="text-gray-400">준비 중인 페이지입니다</p>
+          <button 
+            onClick={() => { setActiveMenu('홈'); setActiveSubMenu('오늘'); setCurrentPage('main'); }}
+            className="mt-6 px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all font-medium"
+            style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)' }}
+          >
+            홈으로 돌아가기
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      <LNB
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+        activeMenu={activeMenu}
+        setActiveMenu={(menu) => { setActiveMenu(menu); setCurrentPage('main'); }}
+        activeSubMenu={activeSubMenu}
+        setActiveSubMenu={(sub) => { setActiveSubMenu(sub); setCurrentPage('main'); }}
+      />
+      <div className="flex-1 overflow-auto">
+        {renderContent()}
+      </div>
+    </div>
+  );
+}
