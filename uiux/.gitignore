@@ -5,3 +5,5 @@ dist/
 .vpn
 .DS_Store
 /.vercel
+.vercel
+.env*.local
