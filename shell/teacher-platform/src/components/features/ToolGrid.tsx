@@ -1,4 +1,4 @@
-import type { Tool } from '@/app/types-platform';
+import type { Tool } from '../../types';
 import ToolTile from './ToolTile';
 
 interface ToolGridProps {
